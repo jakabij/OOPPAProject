@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 
 namespace OOPPAProject
 {
-    class XmlSaver : ISaver
+    public class XmlSaver : ISaver
     {
         public void SaveToXml(string path, List<RecipeBook> listOfRecipeBooks)
         {

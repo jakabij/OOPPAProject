@@ -11,21 +11,24 @@ namespace OOPPAProject
         public string NameOfBook { get; set; }
         public List<Food> ListOfFoods { get; set; }
 
-        public RecipeBook()
+        public RecipeBook(string id, string nameOfBook, int pages)
         {
+            Id = id;
+            Pages = pages;
+            NameOfBook = nameOfBook;
             ListOfFoods = new List<Food>();
         }
 
         public Food CreateFood(string typeOfFood, string nameOfFood,bool serveCold, List<string> listOfIngredients)
         {
             Food food;
-            if(typeOfFood.ToLower().Equals("appetizer"))
+            if(typeOfFood.ToLower().Equals("1"))
             {
                 int id = 0;
                 //generator for ID needed
                 food = new Appetizer(id, nameOfFood, serveCold, listOfIngredients);
             }
-            else if(typeOfFood.ToLower().Equals("secondmeal"))
+            else if(typeOfFood.ToLower().Equals("2"))
             {
                 int id = 0;
                 string userInput = Console.ReadLine();
@@ -79,7 +82,7 @@ namespace OOPPAProject
                 food = new SecondMeal(id, nameOfFood, serveCold, listOfIngredients, needToCook, timeToPrepare, listOfSpices);
             }
 
-            else if(typeOfFood.ToLower().Equals("dessert"))
+            else if(typeOfFood.ToLower().Equals("3"))
             {
                 int id = 0;
 
