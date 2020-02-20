@@ -6,7 +6,7 @@ namespace OOPPAProject
 {
     public class RecipeBook
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public int Pages { get; set; }
         public string NameOfBook { get; set; }
         public List<Food> ListOfFoods { get; set; }

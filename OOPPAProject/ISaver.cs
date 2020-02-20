@@ -6,5 +6,6 @@ namespace OOPPAProject
 {
     interface ISaver
     {
+        void SaveToXml(string path,List<RecipeBook> listOfRecipeBooks);
     }
 }
