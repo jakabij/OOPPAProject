@@ -1,1 +1,1 @@
-![alt text](https://github.com/jakabij/OOPPAProject/edit/master/PA Diagram.jpg)
+![alt text](https://github.com/jakabij/OOPPAProject/edit/master/PADiagram.jpg)
