@@ -10,49 +10,22 @@ namespace OOPPAProject
         UI ui = new UI();
         public void PrintingMenu()
         {
-            Console.WriteLine("\t\t\t--Welcome to the restaurant's recepe store!--\n\nPress:");
-            Console.WriteLine("\t- 1) List the known recepe(s).\n\t- 2) Add new recepe book.\n\t- 3) Update a recepe.\n\t- 4) Remove a recepe.");
+            ui.Start();
         }
 
         public void PrintAllBooks(List<RecipeBook> listOfBooks)
         {
             var cellWidth = listOfBooks.Max(book => book.NameOfBook.Length)+4;
 
-            Console.Write("/");
-            PrintLine(cellWidth*3+2);
-            Console.WriteLine("\\");
-
-
-            for(int count=0; count < listOfBooks.Count;count++)
-            {
-                Console.WriteLine($"|{listOfBooks[count].Id.PadLeft((cellWidth+ listOfBooks[count].Id.Length)/2).PadRight(cellWidth)}" +
-                    $"|{listOfBooks[count].NameOfBook.PadLeft((cellWidth+ listOfBooks[count].NameOfBook.Length)/2).PadRight(cellWidth)}" +
-                    $"|{listOfBooks[count].Pages.ToString().PadLeft((cellWidth+ listOfBooks[count].Pages.ToString().Length)/2).PadRight(cellWidth)}|");
-                if(count<listOfBooks.Count-1)
-                {
-                    Console.Write("|");
-                    PrintLine(cellWidth * 3 + 2);
-                    Console.WriteLine("|");
-                }
-            }
-            
-            Console.Write("\\");
-            PrintLine(cellWidth*3+2);
-            Console.WriteLine("/");
-
-        }
-
-
-        public void PrintLine(int tableWidth)
-        {
-            Console.Write(new string('-', tableWidth));
+            ui.TableCloser(true, cellWidth);
+            ui.TableDatas(listOfBooks,cellWidth);
+            ui.TableCloser(false, cellWidth);
         }
 
         public RecipeBook CreateRecipeBook()
         {
-            string id = "0";
+            string id = "0"; //generate ID
 
-            
             string nameOfBook = ui.GetInputFromUser("The name of the book: ");
 
             int pages;
@@ -64,7 +37,7 @@ namespace OOPPAProject
             {
                 throw new Exception("ParseError");
             }
-            ui.GetInfo("Recepe Book successfully made!");
+            ui.GetInfo("Recepe Book successfully made!",true);
 
             return new RecipeBook(id, nameOfBook, pages);
         }
@@ -94,18 +67,38 @@ namespace OOPPAProject
             listOfIngredients.AddRange(ingredients);
 
             Food food = book.CreateFood(typeOfFood, nameOfFood, serveCold, listOfIngredients);
-            ui.GetInfo("Creating food was successfull!");
+            ui.GetInfo("Creating food was successfull!",true);
             book.AddFood(food);
-            ui.GetInfo("Adding food to the book was successfull!");
+            ui.GetInfo("Adding food to the book was successfull!",true);
         }
 
-
-
-
-
-        public List<RecipeBook> FindBookByFoodName(string name)
+        public void FindBookByFoodName(string name, Store store)    //make a suggester
         {
-            return null;
+            List<RecipeBook> searchedBooks = new List<RecipeBook>();
+            foreach(var book in store.ListOfRecipeBooks)
+            {
+                foreach(var food in book.ListOfFoods)
+                {
+                    if(food.NameOfFood.Equals(name))
+                    {
+                        if(!searchedBooks.Contains(book))
+                            searchedBooks.Add(book);
+                    }
+                }
+            }
+            if(searchedBooks.Count==0)
+            {
+                ui.GetInfo("No food like that!", true);
+            }
+            else
+            {
+                List<string> messages = new List<string>();
+                foreach(var book in searchedBooks)
+                {
+                    messages.Add(book.NameOfBook);
+                }
+                ui.GetResult(messages,false);
+            }
         }
 
         public void RemoveRecepeById(string id)
