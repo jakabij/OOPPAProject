@@ -4,7 +4,15 @@ using System.Text;
 
 namespace OOPPAProject
 {
-    class Dessert
+    public class Dessert : Food
     {
+        public bool NeedToCook { get; set; }
+        public TimeSpan TimeToPrepare { get; set; }
+        public Dessert(int id, string nameOfFood, bool serveCold, List<string> listOfingredients,bool needToCook,TimeSpan timeToPrepare)
+            :base(id, nameOfFood, serveCold, listOfingredients)
+        {
+            NeedToCook = needToCook;
+            TimeToPrepare = timeToPrepare;
+        }
     }
 }

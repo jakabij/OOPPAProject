@@ -4,7 +4,9 @@ using System.Text;
 
 namespace OOPPAProject
 {
-    class Appetizer
+    public class Appetizer : Food
     {
+        public Appetizer(int id, string nameOfFood, bool serveCold, List<string> listOfingredients) : base(id, nameOfFood, serveCold, listOfingredients)
+        { }
     }
 }
