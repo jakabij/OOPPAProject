@@ -9,6 +9,8 @@ namespace OOPPAProject
         public bool NeedToCook { get; set; }
         public TimeSpan TimeToPrepare { get; set; }
         public List<string> ListOfSpices { get; set; }
+
+        public SecondMeal() { }
         public SecondMeal(string id, string nameOfFood, bool serveCold, List<string> listOfingredients
             ,bool needToCook, TimeSpan timeToPrepare, List<string> listOfSpices)
             :base(id, nameOfFood, serveCold, listOfingredients)

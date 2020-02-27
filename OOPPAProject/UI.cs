@@ -10,9 +10,14 @@ namespace OOPPAProject
         {
             Console.WriteLine("\n\n\t\t\t--Welcome to the CodeCool's recepe store!--\n\nPress:");
             Console.WriteLine("\t- 1) To list the known recepe(s).\n\t" +
-                "- 2) Create new recepe book.\n\t" +
-                "- 3) Modify a recepe book.\n\t" +
-                "- 4) Remove a recepe book.");
+                "- 2) To create new recepe book.\n\t" +
+                "- 3) To modify a recepe book.\n\t" +
+                "- 4) To remove a recepe book.\n\t" +
+                "- 5) To find book by food name.\n\t" +
+                "- 6) To show recepe by food ID.\n\t" +
+                "- 7) To find recepe book(s) that contains food.\n\t" +
+                "- 8) To save to xml.\n\t" +
+                "- 0) To exit.\n\n\n");
         }
 
         public void PrintUpdateMenu(string bookName)
@@ -20,7 +25,7 @@ namespace OOPPAProject
             Console.WriteLine($"\tThe {bookName} is front of you.\nPress:\n\n\t\t- 1) To delete a food recepe.\n\t\t" +
                 "- 2) To add new food.\n\t\t" +
                 "- 3) To add comment to a food.\n\t\t" +
-                "- 4) To back to main menu.");
+                "- 4) To back to main menu.\n\n\n");
         }
 
         public void TableCloser(bool isTop, int nameCellWidth, int idCellWidth)
@@ -176,9 +181,9 @@ namespace OOPPAProject
                         }
 
                         if (appetizer.ServeCold)
-                            Console.WriteLine("\nThis appetizer is need to be served cold.");
+                            Console.WriteLine("\nThis appetizer is need to be served cold.\n");
                         else
-                            Console.WriteLine("\nThis appetizer is need to be served hot.");
+                            Console.WriteLine("\nThis appetizer is need to be served hot.\n");
                     }
                     else if (item is SecondMeal)
                     {
@@ -199,9 +204,9 @@ namespace OOPPAProject
                         }
 
                         if (secondMeal.ServeCold)
-                            Console.WriteLine("This meal is need to be served cold.");
+                            Console.WriteLine("\nThis meal is need to be served cold.\n");
                         else
-                            Console.WriteLine("This meal is need to be served hot.");
+                            Console.WriteLine("\nThis meal is need to be served hot.\n");
 
                     }
                     else
@@ -218,11 +223,11 @@ namespace OOPPAProject
                         }
 
                         if (dessert.ServeCold)
-                            Console.WriteLine("This dessert is need to be served cold.");
+                            Console.WriteLine("\nThis dessert is need to be served cold.\n");
                         else
-                            Console.WriteLine("This dessert is need to be served hot.");
-
+                            Console.WriteLine("\nThis dessert is need to be served hot.\n");
                     }
+                    Console.WriteLine(item.Comment);
                 }
             }
         }

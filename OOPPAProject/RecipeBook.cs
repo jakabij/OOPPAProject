@@ -11,6 +11,7 @@ namespace OOPPAProject
         public string NameOfBook { get; set; }
         public List<Food> ListOfFoods { get; set; }
 
+        public RecipeBook() { }
         public RecipeBook(string nameOfBook)
         {
             Id = ui.IdGenerator();

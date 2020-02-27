@@ -6,5 +6,6 @@ namespace OOPPAProject
 {
     interface ILoader
     {
+        List<RecipeBook> LoadFromXml(string path);
     }
 }

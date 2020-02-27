@@ -12,6 +12,7 @@ namespace OOPPAProject
         public List<string> ListOfIngredients { get; set; }
         public string Comment { get; set; }
 
+        public Food() { }
         public Food(string id, string nameOfFood, bool serveCold, List<string> listOfingredients)
         {
             Id = id;
