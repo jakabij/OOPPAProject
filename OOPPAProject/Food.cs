@@ -6,12 +6,13 @@ namespace OOPPAProject
 {
     public abstract class Food
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string NameOfFood { get; set; }
         public bool ServeCold { get; set; }
         public List<string> ListOfIngredients { get; set; }
+        public string Comment { get; set; }
 
-        public Food(int id, string nameOfFood, bool serveCold, List<string> listOfingredients)
+        public Food(string id, string nameOfFood, bool serveCold, List<string> listOfingredients)
         {
             Id = id;
             NameOfFood = nameOfFood;

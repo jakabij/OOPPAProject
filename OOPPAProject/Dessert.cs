@@ -8,7 +8,7 @@ namespace OOPPAProject
     {
         public bool NeedToCook { get; set; }
         public TimeSpan TimeToPrepare { get; set; }
-        public Dessert(int id, string nameOfFood, bool serveCold, List<string> listOfingredients,bool needToCook,TimeSpan timeToPrepare)
+        public Dessert(string id, string nameOfFood, bool serveCold, List<string> listOfingredients,bool needToCook,TimeSpan timeToPrepare)
             :base(id, nameOfFood, serveCold, listOfingredients)
         {
             NeedToCook = needToCook;

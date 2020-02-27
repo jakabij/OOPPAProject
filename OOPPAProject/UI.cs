@@ -8,45 +8,79 @@ namespace OOPPAProject
     {
         public void Start()
         {
-            Console.WriteLine("\t\t\t--Welcome to the restaurant's recepe store!--\n\nPress:");
-            Console.WriteLine("\t- 1) List the known recepe(s).\n\t- 2) Add new recepe book.\n\t- 3) Update a recepe.\n\t- 4) Remove a recepe.");
+            Console.WriteLine("\n\n\t\t\t--Welcome to the CodeCool's recepe store!--\n\nPress:");
+            Console.WriteLine("\t- 1) To list the known recepe(s).\n\t" +
+                "- 2) Create new recepe book.\n\t" +
+                "- 3) Modify a recepe book.\n\t" +
+                "- 4) Remove a recepe book.");
         }
 
-        public void TableCloser(bool isTop, int nameCellWidth, int idCellWidth, int pageCellWidth)
+        public void PrintUpdateMenu(string bookName)
+        {
+            Console.WriteLine($"\tThe {bookName} is front of you.\nPress:\n\n\t\t- 1) To delete a food recepe.\n\t\t" +
+                "- 2) To add new food.\n\t\t" +
+                "- 3) To add comment to a food.\n\t\t" +
+                "- 4) To back to main menu.");
+        }
+
+        public void TableCloser(bool isTop, int nameCellWidth, int idCellWidth)
         {
             if(isTop)
             {
-                Console.Write("/");
-                PrintLine(nameCellWidth + 2, idCellWidth, pageCellWidth);
+                Console.Write("\n\n/");
+                PrintLine(nameCellWidth + 1, idCellWidth);
                 Console.WriteLine("\\");
             }
             else
             {
                 Console.Write("\\");
-                PrintLine(nameCellWidth+2, idCellWidth, pageCellWidth);
-                Console.WriteLine("/");
+                PrintLine(nameCellWidth+1, idCellWidth);
+                Console.WriteLine("/\n\n");
             }
         }
-        public void PrintLine(int nameCellWidth, int idCellWidth, int pageCellWidth)
+        public void PrintLine(int nameCellWidth, int idCellWidth)
         {
-            Console.Write(new string('-', nameCellWidth)+new string('-',idCellWidth)+new string('-',pageCellWidth));
+            Console.Write(new string('-', nameCellWidth)+new string('-',idCellWidth));
         }
 
-        public void TableDatas(List<RecipeBook> listOfBooks,int nameCellWidth,int idCellWidth,int pageCellWidth)
+        public void TableDatas(List<RecipeBook> listOfBooks,int nameCellWidth,int idCellWidth)
         {
+            string id = "ID";
+            string name = "Name";
+            
+            Console.WriteLine($"|{id.PadLeft((idCellWidth + id.Length) / 2).PadRight(idCellWidth)}" +
+                   $"|{name.PadLeft((nameCellWidth + name.Length) / 2).PadRight(nameCellWidth)}|");
+
+            Console.Write("|");
+            PrintLine(nameCellWidth + 1, idCellWidth);
+            Console.WriteLine("|");
+
             for (int count = 0; count < listOfBooks.Count; count++)
             {
                 Console.WriteLine($"|{listOfBooks[count].Id.PadLeft((idCellWidth + listOfBooks[count].Id.Length) / 2).PadRight(idCellWidth)}" +
-                    $"|{listOfBooks[count].NameOfBook.PadLeft((nameCellWidth + listOfBooks[count].NameOfBook.Length) / 2).PadRight(nameCellWidth)}" +
-                    $"|{listOfBooks[count].Pages.ToString().PadLeft((pageCellWidth+ listOfBooks[count].Pages.ToString().Length) / 2).PadRight(pageCellWidth)}|");
+                    $"|{listOfBooks[count].NameOfBook.PadLeft((nameCellWidth + listOfBooks[count].NameOfBook.Length) / 2).PadRight(nameCellWidth)}|");
                 if (count < listOfBooks.Count - 1)
                 {
                     Console.Write("|");
-                    PrintLine(nameCellWidth + 2, idCellWidth, pageCellWidth);
+                    PrintLine(nameCellWidth + 1, idCellWidth);
                     Console.WriteLine("|");
                 }
             }
         }
+
+        public string IdGenerator()
+        {
+            string chars = "0123456789qwertzuiopasdfghjklyxcvbnmQWERTZUIOPASDFGHJKLYXCVBNM";
+            Random rand = new Random();
+
+            string id = "";
+            for(int count=0;count<9;count++)
+            {
+                id+=chars[rand.Next(0, chars.Length)];
+            }
+            return id;
+        }
+
         public string GetInputFromUser(string message)
         {
             Console.Write(message);
@@ -58,14 +92,16 @@ namespace OOPPAProject
             if (isFail)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("[INFO]:\t"+message);
+                Console.Write("[INFO]:");
                 Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("\t"+message);
             }
             else
             { 
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("[INFO]:\t"+message);
+                Console.Write("[INFO]:");
                 Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("\t" + message);
             }
         }
 
@@ -85,19 +121,34 @@ namespace OOPPAProject
         public void GetBookFoods(RecipeBook book)
         {
             Console.WriteLine(book.NameOfBook);
-            PrintLine(book.NameOfBook.Length, 0, 0);
+            PrintLine(book.NameOfBook.Length, 0);
             Console.WriteLine();
             foreach(var item in book.ListOfFoods)
             {
-                Console.WriteLine($"\t-{item.NameOfFood}");
+                Console.WriteLine($"\t-{item.NameOfFood}  ({item.Id})");
             }
+            QuestionForRecepe(book);
+        }
 
-            string wantToContinues=GetInputFromUser("Do you want to read the recipe? ");
-            if (wantToContinues.ToLower().Equals("yes") || wantToContinues.ToLower().Equals("y"))
+        public bool QuestionForFoodAdding()
+        {
+            string input=GetInputFromUser("Do you want to add food for it? ");
+            if (input.ToLower().Equals("y") || input.ToLower().Equals("yes"))
+                return true;
+            else if (input.ToLower().Equals("n") || input.ToLower().Equals("no"))
+                return false;
+            else
+                throw new Exception("NotValidAttribute");
+        }
+
+        public void QuestionForRecepe(RecipeBook book)
+        {
+            string wantToContinue = GetInputFromUser($"Do you want to read the recipe from {book.NameOfBook}? ");
+            if (wantToContinue.ToLower().Equals("yes") || wantToContinue.ToLower().Equals("y"))
             {
                 GetFoodDatas(book);
             }
-            else if (wantToContinues.ToLower().Equals("no") || wantToContinues.ToLower().Equals("n"))
+            else if (wantToContinue.ToLower().Equals("no") || wantToContinue.ToLower().Equals("n"))
             {
 
             }

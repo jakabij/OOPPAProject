@@ -8,14 +8,12 @@ namespace OOPPAProject
     {
         UI ui = new UI();
         public string Id { get; set; }
-        public int Pages { get; set; }
         public string NameOfBook { get; set; }
         public List<Food> ListOfFoods { get; set; }
 
-        public RecipeBook(string id, string nameOfBook, int pages)
+        public RecipeBook(string nameOfBook)
         {
-            Id = id;
-            Pages = pages;
+            Id = ui.IdGenerator();
             NameOfBook = nameOfBook;
             ListOfFoods = new List<Food>();
         }
@@ -25,9 +23,8 @@ namespace OOPPAProject
             Food food;
             if(typeOfFood.ToLower().Equals("1"))
             {
-                int id = 0;
-                //generator for ID needed
-                TimeSpan timeToPrepare; //00:00:00 format
+                string id=ui.IdGenerator();
+                TimeSpan timeToPrepare; 
                 
                 string userInput =ui.GetInputFromUser("The time to prepare it: ");
                 string[] timeAfterSplit = userInput.Split(":");
@@ -65,7 +62,7 @@ namespace OOPPAProject
             }
             else if(typeOfFood.ToLower().Equals("2"))
             {
-                int id = 0;
+                string id = ui.IdGenerator();
                 string userInput = ui.GetInputFromUser("Need to cook: ");
                 bool needToCook;
                 if(userInput.ToLower().Equals("yes") || userInput.ToLower().Equals("y"))
@@ -82,7 +79,7 @@ namespace OOPPAProject
                 }
 
 
-                TimeSpan timeToPrepare; //00:00:00 format
+                TimeSpan timeToPrepare;
                 userInput = ui.GetInputFromUser("The time to prepare it: ");
                 string[] inputSplitting = userInput.Split(":");
                 if(inputSplitting.Length<3 || inputSplitting.Length>3)
@@ -126,17 +123,23 @@ namespace OOPPAProject
 
             else if(typeOfFood.ToLower().Equals("3"))
             {
-                int id = 0;
-
+                string id = ui.IdGenerator();
                 string userInput = Console.ReadLine();
                 bool needToCook;
-                if (bool.TryParse(userInput, out needToCook)) { }
+                if (userInput.ToLower().Equals("yes") || userInput.ToLower().Equals("y"))
+                {
+                    needToCook = true;
+                }
+                else if (userInput.ToLower().Equals("no") || userInput.ToLower().Equals("n"))
+                {
+                    needToCook = false;
+                }
                 else
                 {
                     throw new Exception("ParseError");
                 }
 
-                TimeSpan timeToPrepare; //00:00:00 format
+                TimeSpan timeToPrepare;
                 userInput = ui.GetInputFromUser("The time to prepare it: ");
                 string[] inputSplitting = userInput.Split(":");
                 if (inputSplitting.Length < 3 || inputSplitting.Length > 3)

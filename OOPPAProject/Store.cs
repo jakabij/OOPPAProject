@@ -18,16 +18,17 @@ namespace OOPPAProject
             ListOfRecipeBooks.Add(recipeBook);
         }
 
-        public void RemoveRecipeBook(string id)
+        public bool RemoveRecipeBook(string id)
         {
             foreach(var book in ListOfRecipeBooks)
             {
                 if(book.Id.Equals(id))
                 {
                     ListOfRecipeBooks.Remove(book);
-                    break;
+                    return true;
                 }
             }
+            return false;
         }
     }
 }

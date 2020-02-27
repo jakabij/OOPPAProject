@@ -8,73 +8,216 @@ namespace OOPPAProject
     public class Menu
     {
         UI ui = new UI();
-        public void PrintingMenu()
+        Store store = new Store();
+        public void MenuStart()
         {
             ui.Start();
+            string choice = ui.GetInputFromUser("Your choice: ");
+            if (choice.Equals("1"))
+            {
+                ReadAllBooks();
+            }
+            else if (choice.Equals("2"))
+            {
+                CreateRecepeBook();
+            }
+            else if (choice.Equals("3"))
+            {
+                ReadAllBooks();
+                while(true)
+                { 
+                    string bookId = ui.GetInputFromUser("The book's ID that you are searching for: ");
+                    bool foundIt = false;
+                    RecipeBook recipeBook = null;
+                    foreach (var book in store.ListOfRecipeBooks)
+                    {
+                        if (book.Id.Equals(bookId))
+                        {
+                            foundIt = true;
+                            recipeBook = book;
+                            break;
+                        }
+                    }
+
+                    if (foundIt)
+                    {
+                        ui.PrintUpdateMenu(recipeBook.NameOfBook);
+                        while (true)
+                        {
+                            ui.GetBookFoods(recipeBook);
+                            string choice3 = ui.GetInputFromUser("You chose: ");
+
+                            if (choice3.Equals("1"))
+                            {
+                                string foodId = ui.GetInputFromUser("Food id to delete: ");
+                                bool foundTheFood = false;
+                                for (int count = 0; count < recipeBook.ListOfFoods.Count; count++)
+                                {
+                                    if (recipeBook.ListOfFoods[count].Id.Equals(foodId))
+                                    {
+                                        foundTheFood = true;
+                                        recipeBook.ListOfFoods.RemoveAt(count);
+                                        ui.GetInfo("Food successfully removed.", false);
+                                        break;
+                                    }
+                                }
+                                if (!foundTheFood)
+                                {
+                                    throw new Exception("NotValidId");
+                                }
+                            }
+                            else if (choice3.Equals("2"))
+                            {
+                                Food food = CreateFoodForRecipeBook(recipeBook);
+                                recipeBook.AddFood(food);
+                            }
+                            else if (choice3.Equals("3"))
+                            {
+                                string foodId = ui.GetInputFromUser("Food id to comment: ");
+                                bool foundTheFood = false;
+                                for (int count = 0; count < recipeBook.ListOfFoods.Count; count++)
+                                {
+                                    if (recipeBook.ListOfFoods[count].Id.Equals(foodId))
+                                    {
+                                        foundTheFood = true;
+                                        string comment = ui.GetInputFromUser("What to comment: ");
+                                        recipeBook.ListOfFoods[count].Comment = comment;
+                                        break;
+                                    }
+                                }
+                                if (!foundTheFood)
+                                {
+                                    throw new Exception("NotValidId");
+                                }
+                            }
+                            else if (choice3.Equals("4"))
+                            {
+                                break;
+                            }
+                            else
+                                throw new Exception("InvalidAttribute");
+                        }
+
+                    }
+                    else
+                        throw new Exception("InvalidId");
+                }
+            }
+            else if (choice.Equals("4"))
+            {
+                string id=ui.GetInputFromUser("Recepe book's ID to delete: ");
+                if (RemoveRecepeById(id, store))
+                    ui.GetInfo("Recepe book successfully deleted.", false);
+                else
+                    ui.GetInfo("Recepe book not found.", true);
+            }
+            else if (choice.Equals("5"))
+            {
+                string bookName = ui.GetInputFromUser("Book name: ");
+                FindBookByFoodName(bookName, store);
+            }
+            else if (choice.Equals("6"))
+            {
+                string foodId = ui.GetInputFromUser("Food ID: ");
+                ShowRecepeByFoodId(foodId, store);
+            }
+            else if (choice.Equals("7"))
+            {
+                string foodName = ui.GetInputFromUser("Food name: ");
+                ShowRecepeBooksByFoodName(foodName, store);
+            }
+            else
+            {
+                System.Environment.Exit(0);
+            }
         }
 
         public void PrintAllBooks(List<RecipeBook> listOfBooks)
         {
             var nameCellWidth = listOfBooks.Max(book => book.NameOfBook.Length) + 4;
             int idCellWidth = 9;
-            int pageCellWidth = 5;
 
-            ui.TableCloser(true, nameCellWidth, idCellWidth, pageCellWidth);
-            ui.TableDatas(listOfBooks, nameCellWidth, idCellWidth, pageCellWidth);
-            ui.TableCloser(false, nameCellWidth, idCellWidth, pageCellWidth);
+            ui.TableCloser(true, nameCellWidth, idCellWidth);
+            ui.TableDatas(listOfBooks, nameCellWidth, idCellWidth);
+            ui.TableCloser(false, nameCellWidth, idCellWidth);
         }
 
-        public RecipeBook CreateRecipeBook()
+        public void ReadAllBooks()
         {
-            string id = "0"; //generate ID
-
-            string nameOfBook = ui.GetInputFromUser("The name of the book: ");
-
-            int pages;
-            try
-            {
-                pages = int.Parse(ui.GetInputFromUser("Page number: "));
-            }
-            catch
-            {
-                throw new Exception("ParseError");
-            }
-            ui.GetInfo("Recepe Book successfully made!", false);
-
-            return new RecipeBook(id, nameOfBook, pages);
+            if (store.ListOfRecipeBooks.Count < 1)
+                ui.GetInfo("\nThere is no recepe in the store.", true);
+            else
+                PrintAllBooks(store.ListOfRecipeBooks);
         }
 
-        public void AddFoodToRecipeBook(RecipeBook book)
+
+        public void CreateRecepeBook()
+        {
+            string bookName = ui.GetInputFromUser("Name of the book: ");
+
+            RecipeBook recipeBook = new RecipeBook(bookName);
+            ui.GetInfo("Recipe book successfully created.", false);
+
+            while (true)
+            {
+                if (ui.QuestionForFoodAdding())
+                {
+                    Food food = CreateFoodForRecipeBook(recipeBook);
+
+                    recipeBook.AddFood(food);
+                    ui.GetInfo("Food successfully added to recepe book.", false);
+                }
+                else
+                    break;
+            }
+            store.AddRecipeBook(recipeBook);
+            ui.GetInfo("Recipe book successfully added to store.", false);
+        }
+
+
+
+
+
+
+
+
+
+        public Food CreateFoodForRecipeBook(RecipeBook book)
         {
             string typeOfFood = ui.GetInputFromUser("[1: Appetizer, 2: Second Meal, 3: Dessert]\nType of the food: ");
-            if (!(typeOfFood.Equals("1") && typeOfFood.Equals("2") && typeOfFood.Equals("3")))
+            if (!(typeOfFood.Equals("1") || typeOfFood.Equals("2") || typeOfFood.Equals("3")))
             {
                 throw new Exception("NotValidAttribute!");
             }
-
-            string nameOfFood = ui.GetInputFromUser("Name of food: ");
+           
+            string nameOfFood = ui.GetInputFromUser("\nName of food: ");
 
             bool serveCold;
-            try
+           
+            string toConvert = ui.GetInputFromUser("\n[yes or no]\nBest to serve cold: ");
+            if(toConvert.ToLower().Equals("yes"))
             {
-                serveCold = bool.Parse(ui.GetInputFromUser("[yes or no]\nBest to serve cold: "));
+                serveCold = true;
             }
-            catch
+            else if(toConvert.ToLower().Equals("no"))
             {
+                serveCold = false;
+            }
+            else
                 throw new Exception("ParseError");
-            }
+               
 
-            string[] ingredients = ui.GetInputFromUser("The ingredients separated by ',': ").Split(",");
+            string[] ingredients = ui.GetInputFromUser("\nThe ingredients separated by ',': ").Split(",");
             List<string> listOfIngredients = new List<string>();
             listOfIngredients.AddRange(ingredients);
 
             Food food = book.CreateFood(typeOfFood, nameOfFood, serveCold, listOfIngredients);
             ui.GetInfo("Creating food was successfull!", false);
-            book.AddFood(food);
-            ui.GetInfo("Adding food to the book was successfull!", false);
+            
+            return food;
         }
 
-        public void FindBookByFoodName(string name, Store store)    //make a suggester
+        public void FindBookByFoodName(string name, Store store)
         {
             List<RecipeBook> searchedBooks = new List<RecipeBook>();
             foreach (var book in store.ListOfRecipeBooks)
@@ -97,15 +240,15 @@ namespace OOPPAProject
                 List<string> messages = new List<string>();
                 foreach (var book in searchedBooks)
                 {
-                    messages.Add(book.NameOfBook);
+                    messages.Add(book.NameOfBook+$"  ({book.Id})");
                 }
                 ui.GetResult(messages, false);
             }
         }
 
-        public void RemoveRecepeById(string id, Store store)
+        public bool RemoveRecepeById(string id, Store store)
         {
-            store.RemoveRecipeBook(id);
+            return store.RemoveRecipeBook(id);
         }
 
         public void ShowRecepeByFoodId(string id, Store store)
@@ -129,9 +272,9 @@ namespace OOPPAProject
                 throw new Exception("BookNotFound");
         }
 
-        public void ShowRecepeByFoodName(string foodName, Store store)
+        public void ShowRecepeBooksByFoodName(string foodName, Store store)
         {
-            List<RecipeBook> searchedBooks = new List<RecipeBook>();
+            List<string> searchedBooks = new List<string>();
 
             foreach (var book in store.ListOfRecipeBooks)
             {
@@ -139,17 +282,19 @@ namespace OOPPAProject
                 {
                     if (food.NameOfFood.Equals(foodName))
                     {
-                        searchedBooks.Add(book);
+                        searchedBooks.Add(book.NameOfBook+$"  ({book.Id})");
                         break;
-                        //if(!searchedbooks.contains(book))
-                        //{
-                        //   searchedbooks.add(book);
-                        //}
                     }
                 }
             }
-            foreach (var i in searchedBooks)
-                Console.WriteLine(i.NameOfBook);
+            if (searchedBooks.Count > 0)
+            {
+                ui.GetResult(searchedBooks, false);
+            }
+            else
+                throw new Exception("BookNotFound");
         }
+
+        
     }
 }
