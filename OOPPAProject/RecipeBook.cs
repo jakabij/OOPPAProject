@@ -125,7 +125,7 @@ namespace OOPPAProject
             else if(typeOfFood.ToLower().Equals("3"))
             {
                 string id = ui.IdGenerator();
-                string userInput = Console.ReadLine();
+                string userInput = ui.GetInputFromUser("Need to cook it: ");
                 bool needToCook;
                 if (userInput.ToLower().Equals("yes") || userInput.ToLower().Equals("y"))
                 {

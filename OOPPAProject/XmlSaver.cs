@@ -21,10 +21,11 @@ namespace OOPPAProject
                 writer.WriteStartElement("Foods");
                 foreach(var food in book.ListOfFoods)
                 {
+                    writer.WriteStartElement("Food");
                     if(food is Appetizer)
                     {
                         Appetizer appetizer = (Appetizer)food;
-                        writer.WriteElementString("FoodType", "Appetizer");
+                        writer.WriteAttributeString("Type", "Appetizer");
                         writer.WriteElementString("FoodName", appetizer.NameOfFood);
                         writer.WriteElementString("ID", appetizer.Id);
                         writer.WriteElementString("PreparingTime", appetizer.TimeToPrepare.ToString());
@@ -32,7 +33,7 @@ namespace OOPPAProject
                     else if(food is SecondMeal)
                     {
                         SecondMeal secondMeal = (SecondMeal)food;
-                        writer.WriteElementString("FoodType", "SecondMeal");
+                        writer.WriteAttributeString("Type", "SecondMeal");
                         writer.WriteElementString("FoodName", secondMeal.NameOfFood);
                         writer.WriteElementString("ID", secondMeal.Id);
                         writer.WriteElementString("PreparingTime", secondMeal.TimeToPrepare.ToString());
@@ -40,24 +41,18 @@ namespace OOPPAProject
                     else if(food is Dessert)
                     {
                         Dessert dessert = (Dessert)food;
-                        writer.WriteElementString("FoodType", "Dessert");
+                        writer.WriteAttributeString("Type", "Dessert");
                         writer.WriteElementString("FoodName", dessert.NameOfFood);
                         writer.WriteElementString("ID", dessert.Id);
                         writer.WriteElementString("PreparingTime", dessert.TimeToPrepare.ToString());
                     }
+                    writer.WriteEndElement(); //Food
                 }
                 writer.WriteEndElement(); //Foods
                 writer.WriteEndElement(); //BookName
                 writer.WriteEndElement(); //RecipeBook
             }
             writer.Close();
-            /*
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<RecipeBook>));
-            using (StreamWriter sw = new StreamWriter(path))
-            {
-                xmlSerializer.Serialize(sw, listOfRecipeBooks);
-            }
-            */
         }
     }
 }
