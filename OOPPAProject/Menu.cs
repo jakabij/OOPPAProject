@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -8,7 +9,21 @@ namespace OOPPAProject
     public class Menu
     {
         UI ui = new UI();
-        Store store = new Store();
+        Store store;
+        public Menu()
+        {
+            if (File.Exists("store.xml"))
+            {
+                XmlLoader loader = new XmlLoader();
+                store = loader.LoadFromXml("store.xml");
+                ui.GetInfo("Loading from database was successful.", false);
+            }
+            else
+            {
+                store = new Store();
+                ui.GetInfo("No database found.", true);
+            }
+        }
         public void MenuStart()
         {
             ui.Start();
@@ -16,6 +31,7 @@ namespace OOPPAProject
 
             if (choice.Equals("1"))
             {
+                Console.Clear();
                 ReadAllBooks();
             }
 
@@ -56,15 +72,20 @@ namespace OOPPAProject
                             if (choice3.Equals("1"))
                             {
                                 DeleteFood(recipeBook);
+                                ui.GetInfo("Food successfully deleted.", false);
                             }
                             else if (choice3.Equals("2"))
                             {
                                 Food food = CreateFoodForRecipeBook(recipeBook);
                                 recipeBook.AddFood(food);
+                                Console.Clear();
+                                ui.GetInfo("Food successfully added to the book.", false);
                             }
                             else if (choice3.Equals("3"))
                             {
                                 CommentToFood(recipeBook);
+                                Console.Clear();
+                                ui.GetInfo("Commenting was successfull.", false);
                             }
                             else if (choice3.Equals("4"))
                             {
@@ -83,6 +104,7 @@ namespace OOPPAProject
             {
                 string id = ui.GetInputFromUser("Recepe book's ID to delete: ");
 
+                Console.Clear();
                 if (RemoveRecepeById(id, store))
                     ui.GetInfo("Recepe book successfully deleted.", false);
 
@@ -92,7 +114,7 @@ namespace OOPPAProject
 
             else if (choice.Equals("5"))
             {
-                string bookName = ui.GetInputFromUser("Book name: ");
+                string bookName = ui.GetInputFromUser("Food name: ");
                 FindBookByFoodName(bookName, store);
             }
             else if (choice.Equals("6"))
@@ -109,13 +131,8 @@ namespace OOPPAProject
             {
                 XmlSaver saver = new XmlSaver();
                 saver.SaveToXml("store.xml", store.ListOfRecipeBooks);
+                Console.Clear();
                 ui.GetInfo("Save was successfull.", false);
-            }
-            else if (choice.Equals("9"))
-            {
-                XmlLoader loader = new XmlLoader();
-                store=loader.LoadFromXml("store.xml");
-                ui.GetInfo("Load was successfull.", false);
             }
             else if (choice.Equals("0"))
             {
@@ -124,6 +141,10 @@ namespace OOPPAProject
             else
                 throw new Exception("InvalidAttribute");
         }
+
+
+
+
 
 
 
@@ -264,6 +285,8 @@ namespace OOPPAProject
                     }
                 }
             }
+            Console.Clear();
+
             if (searchedBooks.Count == 0)
             {
                 ui.GetInfo("No food like that!", true);

@@ -17,15 +17,14 @@ namespace OOPPAProject
                 "- 6) To show recepe by food ID.\n\t" +
                 "- 7) To find recepe book(s) that contains food.\n\t" +
                 "- 8) To save to xml.\n\t" +
-                "- 9) To load from xml.\n\t" +
                 "- 0) To exit.\n\n\n");
         }
 
         public void PrintUpdateMenu(string bookName)
         {
-            Console.WriteLine($"\tThe {bookName} is front of you.\nPress:\n\n\t\t- 1) To delete a food recepe.\n\t\t" +
-                "- 2) To add new food.\n\t\t" +
-                "- 3) To add comment to a food.\n\t\t" +
+            Console.WriteLine($"\tThe {bookName} is front of you.\nPress:\n\n\t- 1) To delete a food recepe.\n\t" +
+                "- 2) To add new food.\n\t" +
+                "- 3) To add comment to a food.\n\t" +
                 "- 4) To back to main menu.\n\n\n");
         }
 
@@ -170,6 +169,7 @@ namespace OOPPAProject
             {
                 if (item.NameOfFood.Equals(foodName))
                 {
+                    PrintLine(40, 0);
                     if (item is Appetizer)
                     {
                         Appetizer appetizer = (Appetizer)item;
@@ -229,6 +229,9 @@ namespace OOPPAProject
                             Console.WriteLine("\nThis dessert is need to be served hot.\n");
                     }
                     Console.WriteLine(item.Comment);
+                    Console.ReadKey();
+                    Console.Clear();
+                    PrintUpdateMenu(book.NameOfBook);
                 }
             }
         }

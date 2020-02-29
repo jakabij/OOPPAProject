@@ -17,8 +17,6 @@ namespace OOPPAProject
             xml.Load(path);
             foreach(XmlNode node in xml.DocumentElement) //recipebook
             {
-                Console.WriteLine("Name: "+node.ChildNodes[0].InnerText);
-
                 RecipeBook recipeBook = new RecipeBook(node.ChildNodes[0].InnerText);
                 foreach (XmlNode node2 in node.ChildNodes[1]) //foods
                 {
@@ -89,6 +87,7 @@ namespace OOPPAProject
                         throw new Exception("InvalidConverting");
                     }
                 }
+                recipeBook.Id = node.ChildNodes[2].InnerText;
                 store.AddRecipeBook(recipeBook);
             }
             return store;

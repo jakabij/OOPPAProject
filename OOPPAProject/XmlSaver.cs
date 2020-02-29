@@ -96,6 +96,7 @@ namespace OOPPAProject
                     writer.WriteEndElement(); //Food
                 }
                 writer.WriteEndElement(); //Foods
+                writer.WriteElementString("ID", book.Id);
                 writer.WriteEndElement(); //RecipeBook
             }
             writer.WriteEndElement(); //Store
