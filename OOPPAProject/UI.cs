@@ -143,22 +143,32 @@ namespace OOPPAProject
             else if (input.ToLower().Equals("n") || input.ToLower().Equals("no"))
                 return false;
             else
-                throw new Exception("NotValidAttribute");
+            { 
+                GetInfo("Invalid attribute!", true);
+                return false;
+            }
         }
 
         public void QuestionForRecepe(RecipeBook book)
         {
-            string wantToContinue = GetInputFromUser($"Do you want to read the recipe from {book.NameOfBook}? ");
-            if (wantToContinue.ToLower().Equals("yes") || wantToContinue.ToLower().Equals("y"))
+            string wantToContinue = GetInputFromUser($"Do you want to read a recipe from {book.NameOfBook}? ");
+            while(true)
             {
-                GetFoodDatas(book);
+                if (wantToContinue.ToLower().Equals("yes") || wantToContinue.ToLower().Equals("y"))
+                {
+                    GetFoodDatas(book);
+                    wantToContinue = GetInputFromUser($"Do you want to read a recipe from {book.NameOfBook}? ");
+                }
+                else if (wantToContinue.ToLower().Equals("no") || wantToContinue.ToLower().Equals("n"))
+                {
+                    break;
+                }
+                else
+                {
+                    GetInfo("Invalid attribute!", true);
+                    wantToContinue = GetInputFromUser($"Do you want to read a recipe from {book.NameOfBook}? ");
+                }
             }
-            else if (wantToContinue.ToLower().Equals("no") || wantToContinue.ToLower().Equals("n"))
-            {
-
-            }
-            else
-                throw new Exception("InvalidInput");
         }
 
         public void GetFoodDatas(RecipeBook book)
@@ -228,10 +238,8 @@ namespace OOPPAProject
                         else
                             Console.WriteLine("\nThis dessert is need to be served hot.\n");
                     }
-                    Console.WriteLine(item.Comment);
+                    Console.WriteLine(item.Comment+"\n\n\n");
                     Console.ReadKey();
-                    Console.Clear();
-                    PrintUpdateMenu(book.NameOfBook);
                 }
             }
         }

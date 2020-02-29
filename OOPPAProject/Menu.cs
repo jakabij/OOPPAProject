@@ -63,16 +63,15 @@ namespace OOPPAProject
 
                     if (foundIt)
                     {
-                        ui.PrintUpdateMenu(recipeBook.NameOfBook);
                         while (true)
                         {
                             ui.GetBookFoods(recipeBook);
+                            ui.PrintUpdateMenu(recipeBook.NameOfBook);
                             string choice3 = ui.GetInputFromUser("You chose: ");
 
                             if (choice3.Equals("1"))
                             {
                                 DeleteFood(recipeBook);
-                                ui.GetInfo("Food successfully deleted.", false);
                             }
                             else if (choice3.Equals("2"))
                             {
@@ -92,11 +91,15 @@ namespace OOPPAProject
                                 break;
                             }
                             else
-                                throw new Exception("InvalidAttribute");
+                            {
+                                ui.GetInfo("Invalid attribute!", true);
+                            }
                         }
                     }
                     else
-                        throw new Exception("InvalidId");
+                    {
+                        ui.GetInfo("Invalid ID.", true);
+                    }
                 }
             }
 
@@ -139,7 +142,10 @@ namespace OOPPAProject
                 System.Environment.Exit(0);
             }
             else
-                throw new Exception("InvalidAttribute");
+            {
+                Console.Clear();
+                ui.GetInfo("Invalid attribute!", true);
+            }
         }
 
 
@@ -163,7 +169,7 @@ namespace OOPPAProject
             if (store.ListOfRecipeBooks.Count < 1)
             {
                 Console.Clear();
-                ui.GetInfo("\nThere is no recepe in the store.", true);
+                ui.GetInfo("There is no recepe in the store.", true);
             }
             else
             {
@@ -182,6 +188,7 @@ namespace OOPPAProject
 
             while (true)
             {
+                Console.Clear();
                 if (ui.QuestionForFoodAdding())
                 {
                     Food food = CreateFoodForRecipeBook(recipeBook);
@@ -206,13 +213,16 @@ namespace OOPPAProject
                 {
                     foundTheFood = true;
                     recipeBook.ListOfFoods.RemoveAt(count);
+                    Console.Clear();
                     ui.GetInfo("Food successfully removed.", false);
                     break;
                 }
             }
             if (!foundTheFood)
             {
-                throw new Exception("NotValidId");
+                Console.Clear();
+                ui.GetInfo("Not valid ID!", true);
+                ui.GetInfo("Nothing changed.", true);
             }
         }
 
@@ -232,6 +242,7 @@ namespace OOPPAProject
             }
             if (!foundTheFood)
             {
+                ui.GetInfo("Not valid ID!", true);
                 throw new Exception("NotValidId");
             }
         }
@@ -241,6 +252,7 @@ namespace OOPPAProject
             string typeOfFood = ui.GetInputFromUser("[1: Appetizer, 2: Second Meal, 3: Dessert]\nType of the food: ");
             if (!(typeOfFood.Equals("1") || typeOfFood.Equals("2") || typeOfFood.Equals("3")))
             {
+                ui.GetInfo("Not valid attribute!", true);
                 throw new Exception("NotValidAttribute!");
             }
            
@@ -258,8 +270,11 @@ namespace OOPPAProject
                 serveCold = false;
             }
             else
+            {
+                ui.GetInfo("Invalid input!", true);
                 throw new Exception("ParseError");
-               
+            }
+
 
             string[] ingredients = ui.GetInputFromUser("\nThe ingredients separated by ',': ").Split(",");
             List<string> listOfIngredients = new List<string>();
@@ -298,6 +313,7 @@ namespace OOPPAProject
                 {
                     messages.Add(book.NameOfBook+$"  ({book.Id})");
                 }
+                ui.GetInfo("Searching was successfull!", false);
                 ui.GetResult(messages, false);
             }
         }
@@ -325,7 +341,9 @@ namespace OOPPAProject
                 ui.GetBookFoods(searchedBook);
             }
             else
-                throw new Exception("BookNotFound");
+            {
+                ui.GetInfo("Book not found!", true);
+            }
         }
 
         public void ShowRecepeBooksByFoodName(string foodName, Store store)
@@ -348,7 +366,9 @@ namespace OOPPAProject
                 ui.GetResult(searchedBooks, false);
             }
             else
-                throw new Exception("BookNotFound");
+            {
+                ui.GetInfo("Book not found!", true);
+            }
         }
     }
 }
