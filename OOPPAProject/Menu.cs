@@ -26,7 +26,7 @@ namespace OOPPAProject
 
             else if (choice.Equals("3"))
             {
-                while(true)
+                while (true)
                 {
                     ReadAllBooks();
                     string bookId = ui.GetInputFromUser("The book's ID that you are searching for or press 0 to EXIT: ");
@@ -81,7 +81,7 @@ namespace OOPPAProject
 
             else if (choice.Equals("4"))
             {
-                string id=ui.GetInputFromUser("Recepe book's ID to delete: ");
+                string id = ui.GetInputFromUser("Recepe book's ID to delete: ");
 
                 if (RemoveRecepeById(id, store))
                     ui.GetInfo("Recepe book successfully deleted.", false);
@@ -105,15 +105,24 @@ namespace OOPPAProject
                 string foodName = ui.GetInputFromUser("Food name: ");
                 ShowRecepeBooksByFoodName(foodName, store);
             }
-            else if(choice.Equals("8"))
+            else if (choice.Equals("8"))
             {
                 XmlSaver saver = new XmlSaver();
-                saver.SaveToXml("store.xml",store.ListOfRecipeBooks);
+                saver.SaveToXml("store.xml", store.ListOfRecipeBooks);
+                ui.GetInfo("Save was successfull.", false);
             }
-            else
+            else if (choice.Equals("9"))
+            {
+                XmlLoader loader = new XmlLoader();
+                store=loader.LoadFromXml("store.xml");
+                ui.GetInfo("Load was successfull.", false);
+            }
+            else if (choice.Equals("0"))
             {
                 System.Environment.Exit(0);
             }
+            else
+                throw new Exception("InvalidAttribute");
         }
 
 

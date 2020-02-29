@@ -17,6 +17,7 @@ namespace OOPPAProject
                 "- 6) To show recepe by food ID.\n\t" +
                 "- 7) To find recepe book(s) that contains food.\n\t" +
                 "- 8) To save to xml.\n\t" +
+                "- 9) To load from xml.\n\t" +
                 "- 0) To exit.\n\n\n");
         }
 
