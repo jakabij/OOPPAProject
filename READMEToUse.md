@@ -12,6 +12,8 @@ For instance the Second Meal has a NeedToCook, PreparingTime and List of spices 
 When the program starts it tries to load data from store.xml.
 If the searching was not successfull you have to create RecipeBooks first (press 2).
 
+If you press 1 you can see all of the RecepeBooks.
+
 When you have a RecepeBook you can modify it by it's ID (press 3).
 	In this menu you can:
 		-Delete food recepes.

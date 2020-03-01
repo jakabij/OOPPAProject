@@ -376,30 +376,5 @@ namespace OOPPAProject
                 ui.GetInfo("Book not found!", true);
             }
         }
-
-        public void ShowRecepeBooksByFoodName(string foodName, Store store)
-        {
-            List<string> searchedBooks = new List<string>();
-
-            foreach (var book in store.ListOfRecipeBooks)
-            {
-                foreach (var food in book.ListOfFoods)
-                {
-                    if (food.NameOfFood.Equals(foodName))
-                    {
-                        searchedBooks.Add(book.NameOfBook+$"  ({book.Id})");
-                        break;
-                    }
-                }
-            }
-            if (searchedBooks.Count > 0)
-            {
-                ui.GetResult(searchedBooks, false);
-            }
-            else
-            {
-                ui.GetInfo("Book not found!", true);
-            }
-        }
     }
 }
