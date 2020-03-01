@@ -27,7 +27,7 @@ namespace OOPPAProject
                 string id=ui.IdGenerator();
                 TimeSpan timeToPrepare; 
                 
-                string userInput =ui.GetInputFromUser("The time to prepare it: ");
+                string userInput =ui.GetInputFromUser("\nThe time to prepare it [in 0:0:0 format]: ");
                 string[] timeAfterSplit = userInput.Split(":");
                 if (timeAfterSplit.Length < 3 || timeAfterSplit.Length > 3)
                 {
@@ -64,7 +64,7 @@ namespace OOPPAProject
             else if(typeOfFood.ToLower().Equals("2"))
             {
                 string id = ui.IdGenerator();
-                string userInput = ui.GetInputFromUser("Need to cook: ");
+                string userInput = ui.GetInputFromUser("\n[yes or no]\nNeed to cook: ");
                 bool needToCook;
                 if(userInput.ToLower().Equals("yes") || userInput.ToLower().Equals("y"))
                 {
@@ -81,7 +81,7 @@ namespace OOPPAProject
 
 
                 TimeSpan timeToPrepare;
-                userInput = ui.GetInputFromUser("The time to prepare it: ");
+                userInput = ui.GetInputFromUser("\nThe time to prepare it [in 0:0:0 format]: ");
                 string[] inputSplitting = userInput.Split(":");
                 if(inputSplitting.Length<3 || inputSplitting.Length>3)
                 {
@@ -114,10 +114,21 @@ namespace OOPPAProject
                     timeToPrepare = new TimeSpan(hours, minutes, seconds);
                 }
 
-                userInput = ui.GetInputFromUser("List of the spices divided by ',': ");
+                userInput = ui.GetInputFromUser("\nList of the spices separated by ',': ");
                 inputSplitting = userInput.Split(",");
+
                 List<string> listOfSpices = new List<string>();
                 listOfSpices.AddRange(inputSplitting);
+
+                string toCheck = "'~ˇ+^!˘%°/˛=`´˝¨\\|€÷×łŁ$ß#&@<?;.:*";
+                foreach(var spice in listOfSpices)
+                { 
+                    for(int i=0;i<toCheck.Length;i++)
+                    {
+                        if (spice.Contains(toCheck[i]))
+                            throw new Exception("InvalidAttribute");
+                    }
+                }
 
                 food = new SecondMeal(id, nameOfFood, serveCold, listOfIngredients, needToCook, timeToPrepare, listOfSpices);
             }

@@ -14,9 +14,8 @@ namespace OOPPAProject
                 "- 3) To modify a recepe book.\n\t" +
                 "- 4) To remove a recepe book.\n\t" +
                 "- 5) To find book by food name.\n\t" +
-                "- 6) To show recepe by food ID.\n\t" +
-                "- 7) To find recepe book(s) that contains food.\n\t" +
-                "- 8) To save to xml.\n\t" +
+                "- 6) To show Book's recepe by book ID.\n\t" +
+                "- 7) To save to xml.\n\t" +
                 "- 0) To exit.\n\n\n");
         }
 
@@ -25,7 +24,7 @@ namespace OOPPAProject
             Console.WriteLine($"\tThe {bookName} is front of you.\nPress:\n\n\t- 1) To delete a food recepe.\n\t" +
                 "- 2) To add new food.\n\t" +
                 "- 3) To add comment to a food.\n\t" +
-                "- 4) To back to main menu.\n\n\n");
+                "- 4) To go back to book choosing.\n\n\n");
         }
 
         public void TableCloser(bool isTop, int nameCellWidth, int idCellWidth)
